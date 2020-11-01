@@ -1,0 +1,43 @@
+{
+  "name": "ts-template",
+  "version": "0.0.0",
+  "description": "template project",
+  "keywords": [
+    "ts",
+    "template"
+  ],
+  "files": [
+    "build/src"
+  ],
+  "types": "build/src/index.d.ts",
+  "main": "build/src/index.js",
+  "scripts": {
+    "compile": "tsc",
+    "compile:prod": "rm -rf build/ && tsc --build tsconfig.prod.json",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "build": "npm run lint:fix && npm run compile",
+    "build:prod": "rm -rf build/ && npm run lint:fix && npm run compile:prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wmakeev/npm-module.git"
+  },
+  "author": "Vitaliy V. Makeev",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/blue-tape": "^0.1.33",
+    "@types/node": "^12.19.3",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
+    "@typescript-eslint/typescript-estree": "^4.6.0",
+    "blue-tape": "^1.0.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.1.2",
+    "typescript": "^4.0.5",
+    "typescript-eslint-language-service": "^4.1.1"
+  }
+}
