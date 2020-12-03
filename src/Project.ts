@@ -30,7 +30,7 @@ export interface BaseProject {
   /**
    * A reference to the enclosing project.
    */
-  parent: string | null
+  parent: Reference | null
 }
 
 export interface Project extends BaseProject, Reference {
