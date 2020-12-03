@@ -33,18 +33,18 @@ const TIMING_API_VERSION = 'v1'
 
 export class Timing {
   private token: string
-  private fetch: FetchApi
+  private urlFetch: FetchApi
 
   constructor(options: { token?: string; fetch?: FetchApi }) {
     const { token } = options
 
     /* eslint @typescript-eslint/ban-ts-comment:0 */
     if (options.fetch) {
-      this.fetch = options.fetch
+      this.urlFetch = options.fetch
       // @ts-expect-error
     } else if (typeof fetch !== 'undefined') {
       // @ts-expect-error
-      this.fetch = fetch
+      this.urlFetch = fetch
     } else {
       throw new TimingError('fetch module not found')
     }
@@ -60,7 +60,32 @@ export class Timing {
     }
   }
 
-  protected async fetchApi<T>(
+  async fetch<T>(url: string, options?: { method?: string; body?: Object }) {
+    const { method, body } = options ?? {}
+
+    const resp = await this.urlFetch(url, {
+      method,
+      headers: {
+        'Authorization': `Bearer ${this.token}`,
+        'Accept': 'application/json',
+        'Accept-Encoding': 'gzip',
+        'Content-Type': 'application/json'
+      },
+      body: body ? JSON.stringify(body) : undefined
+    })
+
+    const responseText = await resp.text()
+
+    const data = responseText ? JSON.parse(responseText) : undefined
+
+    if (resp.status < 200 || resp.status > 299) {
+      throw new TimingApiError(data?.message ?? resp.statusText, resp)
+    }
+
+    return data as T
+  }
+
+  protected fetchApi<T>(
     method: string,
     requestPath: string,
     queryParams?: Record<
@@ -81,26 +106,7 @@ export class Timing {
         requestPath
       )}` + (queryString ? `?${queryString}` : '')
 
-    const resp = await this.fetch(url, {
-      method,
-      headers: {
-        'Authorization': `Bearer ${this.token}`,
-        'Accept': 'application/json',
-        'Accept-Encoding': 'gzip',
-        'Content-Type': 'application/json'
-      },
-      body: body ? JSON.stringify(body) : undefined
-    })
-
-    const responseText = await resp.text()
-
-    const data = responseText ? JSON.parse(responseText) : undefined
-
-    if (resp.status < 200 || resp.status > 299) {
-      throw new TimingApiError(data?.message ?? resp.statusText, resp)
-    }
-
-    return data as T
+    return this.fetch<T>(url, { method, body })
   }
 
   /**
