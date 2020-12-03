@@ -1,4 +1,4 @@
-import type { Response } from 'node-fetch'
+import type { FetchResponse } from '.'
 
 export class TimingError extends Error {
   constructor(message: string) {
@@ -16,7 +16,7 @@ export class TimingRequestError extends TimingError {
   public status?: number
   public statusText?: string
 
-  constructor(message: string, response?: Response) {
+  constructor(message: string, response?: FetchResponse) {
     super(message)
 
     if (response) {
@@ -28,7 +28,7 @@ export class TimingRequestError extends TimingError {
 }
 
 export class TimingApiError extends TimingRequestError {
-  constructor(message: string, response?: Response) {
+  constructor(message: string, response?: FetchResponse) {
     super(message)
 
     if (response) {
@@ -40,7 +40,7 @@ export class TimingApiError extends TimingRequestError {
 }
 
 export class TimingNotFoundError extends TimingApiError {
-  constructor(message: string, response?: Response) {
+  constructor(message: string, response?: FetchResponse) {
     super(message, response)
   }
 }

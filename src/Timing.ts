@@ -1,6 +1,5 @@
 import path from 'path'
 import qs, { ParsedUrlQueryInput } from 'querystring'
-import fetch from 'node-fetch'
 import { TimingApiError, TimingError } from './errors'
 import type { BaseProject, Project } from './Project'
 import type { Reference } from './Reference'
@@ -14,6 +13,22 @@ import type {
   TaskUpdatePatch
 } from './Task'
 
+export type FetchResponse = {
+  status: number
+  statusText: string
+  text(): Promise<string>
+  url: string
+}
+
+export type FetchApi = (
+  url: string,
+  init?: {
+    body?: string
+    headers?: Record<string, string>
+    method?: string
+  }
+) => Promise<FetchResponse>
+
 const {
   TIMING_ENDPOINT = 'web.timingapp.com',
   TIMING_API_VERSION = 'v1',
@@ -22,8 +37,22 @@ const {
 
 export class Timing {
   private token: string
+  private fetch: FetchApi
 
-  constructor(token?: string) {
+  constructor(options: { token?: string; fetch?: FetchApi }) {
+    const { token } = options
+
+    /* eslint @typescript-eslint/ban-ts-comment:0 */
+    if (options.fetch) {
+      this.fetch = options.fetch
+      // @ts-expect-error
+    } else if (typeof fetch !== 'undefined') {
+      // @ts-expect-error
+      this.fetch = fetch
+    } else {
+      throw new TimingError('fetch module not found')
+    }
+
     if (token) {
       this.token = token
     } else if (TIMING_TOKEN) {
@@ -54,7 +83,7 @@ export class Timing {
         requestPath
       )}` + (queryString ? `?${queryString}` : '')
 
-    const resp = await fetch(url, {
+    const resp = await this.fetch(url, {
       method,
       headers: {
         'Authorization': `Bearer ${this.token}`,

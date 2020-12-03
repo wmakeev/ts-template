@@ -1,9 +1,10 @@
 import test from 'blue-tape'
+import fetch from 'node-fetch'
 
 import { Timing } from '../src'
 
 test('Timing#listProjectsHierarchy', async t => {
-  const timing = new Timing()
+  const timing = new Timing({ fetch })
 
   const projects = await timing.listProjectsHierarchy()
 
@@ -11,7 +12,7 @@ test('Timing#listProjectsHierarchy', async t => {
 })
 
 test('Timing#listProjects', async t => {
-  const timing = new Timing()
+  const timing = new Timing({ fetch })
 
   const { data: projects1 } = await timing.listProjects()
 
@@ -33,7 +34,7 @@ test('Timing#listProjects', async t => {
 })
 
 test('Timing workflow', async t => {
-  const timing = new Timing()
+  const timing = new Timing({ fetch })
 
   // createProject
   const project1Title = 'foo1_' + Date.now()
@@ -56,18 +57,11 @@ test('Timing workflow', async t => {
 
   const project2Title = 'foo2_' + Date.now()
 
-  const resp2 = await timing.createProject(
-    {
-      title: project2Title
-    },
-    true
-  )
+  const resp2 = await timing.createProject({
+    title: project2Title
+  })
 
-  t.equal(
-    resp2.data.title,
-    project2Title,
-    `should create project ${project2Title}`
-  )
+  t.equal(resp2.title, project2Title, `should create project ${project2Title}`)
 
   // updateProject
 
@@ -84,13 +78,14 @@ test('Timing workflow', async t => {
   await timing.delete(project1Ref)
 
   try {
-    ;(await timing.getProject(project1Ref)).self
+    const res = await timing.getProject(project1Ref)
+    res.self
     throw new Error(`should delete project ${project1Title}`)
   } catch (err) {
     t.equal(err.message, 'Not found.', `should delete project ${project1Title}`)
   }
 })
 
-test.only('Timing#(create|get|update|delete)Project', async t => {
-  // createProject
-})
+// test.only('Timing#(create|get|update|delete)Project', async t => {
+//   // createProject
+// })
