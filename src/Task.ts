@@ -40,25 +40,29 @@ export interface Task extends Reference, BaseTask {
   is_running: boolean
 }
 
+export interface ListLinks {
+  first: string
+  last: string
+  prev: string | null
+  next: string | null
+}
+
+export interface ListMeta {
+  current_page: number
+  from: number
+  last_page: number
+  path: string
+  per_page: number
+  to: number
+  total: number
+}
+
 export interface TasksList {
   data: Task[]
 
-  links: {
-    first: string
-    last: string
-    prev: string | null
-    next: string | null
-  }
+  links: ListLinks
 
-  meta: {
-    current_page: number
-    from: number
-    last_page: number
-    path: string
-    per_page: number
-    to: number
-    total: number
-  }
+  meta: ListMeta
 }
 
 export interface TaskQuery {
