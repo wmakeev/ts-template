@@ -28,11 +28,8 @@ export type FetchApi = (
   }
 ) => Promise<FetchResponse>
 
-const {
-  TIMING_ENDPOINT = 'web.timingapp.com',
-  TIMING_API_VERSION = 'v1',
-  TIMING_TOKEN
-} = process.env
+const TIMING_ENDPOINT = 'web.timingapp.com'
+const TIMING_API_VERSION = 'v1'
 
 export class Timing {
   private token: string
@@ -54,7 +51,9 @@ export class Timing {
 
     if (token) {
       this.token = token
-    } else if (TIMING_TOKEN) {
+      // @ts-expect-error
+    } else if (typeof TIMING_TOKEN !== 'undefined') {
+      // @ts-expect-error
       this.token = TIMING_TOKEN
     } else {
       throw new TimingError('Timing token not specified.')
