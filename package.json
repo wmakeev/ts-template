@@ -1,10 +1,13 @@
 {
-  "name": "ts-template",
-  "version": "0.0.0",
-  "description": "template project",
+  "name": "timingapp-api",
+  "version": "0.0.1",
+  "description": "TypeScript client for Timing app API",
   "keywords": [
-    "ts",
-    "template"
+    "timing",
+    "timingapp",
+    "timetrack",
+    "time",
+    "tracker"
   ],
   "files": [
     "build/src"
@@ -21,13 +24,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wmakeev/npm-module.git"
+    "url": "https://github.com/wmakeev/timingapp-api.git"
   },
   "author": "Vitaliy V. Makeev",
   "license": "MIT",
   "devDependencies": {
     "@types/blue-tape": "^0.1.33",
     "@types/node": "^12.19.3",
+    "@types/node-fetch": "^2.5.7",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
     "@typescript-eslint/typescript-estree": "^4.6.0",
@@ -37,7 +41,11 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.1.2",
+    "source-map-support": "^0.5.19",
     "typescript": "^4.0.5",
     "typescript-eslint-language-service": "^4.1.1"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
   }
 }

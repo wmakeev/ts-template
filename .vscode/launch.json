@@ -13,7 +13,10 @@
       ],
       "program": "${file}",
       "envFile": "${workspaceFolder}/.env",
-      "runtimeArgs": [],
+      "runtimeArgs": [
+        "-r",
+        "source-map-support/register"
+      ],
       "preLaunchTask": "npm: compile",
       "outFiles": [
         "${workspaceFolder}/build/**/*.js"

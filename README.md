@@ -1,9 +1,3 @@
-# ts-template
+# timingapp-api
 
-> template project
-
-## Bootstrap
-
-```bash
-chmod +x .bootstrap/scripts.sh && .bootstrap/scripts.sh
-```
+> TypeScript client for Timing app API
