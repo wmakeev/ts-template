@@ -1,9 +1,8 @@
-import path from 'path'
 import qs, { ParsedUrlQueryInput } from 'querystring'
 import { TimingApiError, TimingError } from './errors'
 import type { BaseProject, Project } from './Project'
 import type { Reference } from './Reference'
-import { dateToString, getReferenceStr, omitField } from './tools'
+import { dateToString, getReferenceStr, omitField, pathJoin } from './tools'
 import type {
   NewCompletedTask,
   NewStartedTask,
@@ -76,7 +75,7 @@ export class Timing {
     const queryString = qs.encode(urlQuery)
 
     const url =
-      `https://${path.join(
+      `https://${pathJoin(
         TIMING_ENDPOINT,
         'api',
         TIMING_API_VERSION,
