@@ -1,6 +1,6 @@
 {
   "name": "timingapp-api",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "TypeScript client for Timing app API",
   "keywords": [
     "timing",

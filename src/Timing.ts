@@ -192,12 +192,12 @@ export class Timing {
    *
    * @param query Tasks query
    */
-  async listTasks(query: TaskQuery) {
-    const projects = query.projects?.map(p => {
+  async listTasks(query?: TaskQuery) {
+    const projects = query?.projects?.map(p => {
       return typeof p === 'string' ? `/projects/${p}` : p.self
     })
 
-    const queryTmp = omitField(query, 'projects')
+    const queryTmp = omitField(query ?? {}, 'projects')
 
     const queryObj = {
       ...queryTmp,
