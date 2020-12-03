@@ -61,7 +61,7 @@ export class Timing {
   }
 
   async fetch<T>(url: string, options?: { method?: string; body?: Object }) {
-    const { method, body } = options ?? {}
+    const { method = 'GET', body } = options ?? {}
 
     const resp = await this.urlFetch(url, {
       method,
