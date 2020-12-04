@@ -212,9 +212,16 @@ export class Timing {
       ...(projects?.length ? { ['projects[]']: projects } : {})
     }
 
-    const res = await this.fetchApi<TasksList>('GET', 'time-entries', queryObj)
+    let res = await this.fetchApi<TasksList>('GET', 'time-entries', queryObj)
 
-    // FIXME Transform date fields to Date
+    res = {
+      ...res,
+      data: res.data.map(it => ({
+        ...it,
+        start_date: new Date(it.start_date),
+        end_date: it.end_date && new Date(it.end_date)
+      }))
+    }
 
     return res
   }
