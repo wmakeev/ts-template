@@ -9,7 +9,7 @@ export interface BaseTask {
   /**
    * The task's end date and time.
    */
-  end_date: Date
+  end_date: Date // FIXME depends on is_running
 
   /**
    * The project this task is associated with.
