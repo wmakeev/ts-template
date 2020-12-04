@@ -207,12 +207,14 @@ export class Timing {
 
     const queryObj = {
       ...queryTmp,
-      'start_date_min': dateToString(queryTmp.start_date_min),
-      'start_date_max': dateToString(queryTmp.start_date_min),
-      'projects[]': projects
+      start_date_min: dateToString(queryTmp.start_date_min),
+      start_date_max: dateToString(queryTmp.start_date_max),
+      ...(projects?.length ? { ['projects[]']: projects } : {})
     }
 
     const res = await this.fetchApi<TasksList>('GET', 'time-entries', queryObj)
+
+    // FIXME Transform date fields to Date
 
     return res
   }
